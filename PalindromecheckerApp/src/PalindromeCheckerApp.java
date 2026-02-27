@@ -1,35 +1,29 @@
 /**
  * MAIN CLASS: PalindromeCheckerApp
- * Use Case 12: Strategy Pattern for Palindrome Algorithms (Advanced)
+ * Use Case 13: Performance Comparison of Palindrome Algorithms
  *
  * Description:
- * Implement multiple palindrome checking algorithms
- * using the Strategy Design Pattern. Different
- * strategies can be selected at runtime.
+ * Compare the performance of two different
+ * palindrome checking approaches:
+ *   1. Two-Pointer Technique
+ *   2. Reverse String Technique
+ * Measure execution time using System.nanoTime().
  *
  * Key Concepts Used:
- *  - Strategy Design Pattern
- *  - Interface Implementation
- *  - Runtime Polymorphism
- *  - Clean Architecture
- *  - Open/Closed Principle
+ *  - Performance Measurement
+ *  - System.nanoTime()
+ *  - Strategy Comparison
+ *  - Time Complexity Awareness
+ *  - Basic Benchmarking
  *
  * @author SHIVANSH DHINGRA
- * @version 12.0
+ * @version 13.0
  */
 
-// Strategy Interface
-interface PalindromeStrategy {
-    boolean isPalindrome(String input);
-}
+public class PalindromeCheckerApp {
 
-// Concrete Strategy 1: Two-Pointer Approach
-class TwoPointerStrategy implements PalindromeStrategy {
-
-    @Override
-    public boolean isPalindrome(String input) {
-
-        if (input == null) return false;
+    // Two-Pointer Approach
+    public static boolean twoPointerCheck(String input) {
 
         String normalized = input.toLowerCase().replaceAll("\\s+", "");
 
@@ -46,15 +40,9 @@ class TwoPointerStrategy implements PalindromeStrategy {
 
         return true;
     }
-}
 
-// Concrete Strategy 2: Reverse String Approach
-class ReverseStringStrategy implements PalindromeStrategy {
-
-    @Override
-    public boolean isPalindrome(String input) {
-
-        if (input == null) return false;
+    // Reverse String Approach
+    public static boolean reverseStringCheck(String input) {
 
         String normalized = input.toLowerCase().replaceAll("\\s+", "");
 
@@ -62,45 +50,29 @@ class ReverseStringStrategy implements PalindromeStrategy {
 
         return normalized.equals(reversed);
     }
-}
-
-// Context Class
-class PalindromeContext {
-
-    private PalindromeStrategy strategy;
-
-    public PalindromeContext(PalindromeStrategy strategy) {
-        this.strategy = strategy;
-    }
-
-    public void setStrategy(PalindromeStrategy strategy) {
-        this.strategy = strategy;
-    }
-
-    public boolean execute(String input) {
-        return strategy.isPalindrome(input);
-    }
-}
-
-public class PalindromeCheckerApp {
 
     public static void main(String[] args) {
 
-        String text = "Was It A Rat I Saw";
+        String text = "Able was I ere I saw Elba";
 
-        // Choose Strategy 1
-        PalindromeContext context =
-                new PalindromeContext(new TwoPointerStrategy());
+        // Measure Two-Pointer Execution Time
+        long startTime1 = System.nanoTime();
+        boolean result1 = twoPointerCheck(text);
+        long endTime1 = System.nanoTime();
 
-        boolean result1 = context.execute(text);
+        long duration1 = endTime1 - startTime1;
 
-        System.out.println("Two-Pointer Strategy Result: " + result1);
+        // Measure Reverse String Execution Time
+        long startTime2 = System.nanoTime();
+        boolean result2 = reverseStringCheck(text);
+        long endTime2 = System.nanoTime();
 
-        // Switch to Strategy 2
-        context.setStrategy(new ReverseStringStrategy());
+        long duration2 = endTime2 - startTime2;
 
-        boolean result2 = context.execute(text);
+        System.out.println("Two-Pointer Result: " + result1);
+        System.out.println("Two-Pointer Execution Time (ns): " + duration1);
 
-        System.out.println("Reverse String Strategy Result: " + result2);
+        System.out.println("Reverse String Result: " + result2);
+        System.out.println("Reverse String Execution Time (ns): " + duration2);
     }
 }
