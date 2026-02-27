@@ -1,107 +1,52 @@
 /**
  * MAIN CLASS: PalindromeCheckerApp
- * Use Case 8: Linked List Based Palindrome Check
+ * Use Case 9: Recursive Palindrome Check
  *
  * Description:
- * Create a singly linked list and check whether
- * the linked list is a palindrome using the
- * Two-Pointer Technique and in-place reversal.
+ * Check whether a given string is a palindrome
+ * using Recursion by comparing characters
+ * from start and end moving inward.
  *
  * Key Concepts Used:
- *  - Singly Linked List
- *  - Node Class
- *  - Two-Pointer Technique (Slow & Fast Pointer)
- *  - In-place Reversal
+ *  - Recursion
+ *  - Base Case & Recursive Case
+ *  - String Indexing
+ *  - Call Stack Understanding
  *  - Time Complexity Awareness (O(n))
  *
  * @author SHIVANSH DHINGRA
- * @version 8.0
+ * @version 9.0
  */
 
 public class PalindromeCheckerApp {
 
-    // Node Class
-    static class Node {
-        int data;
-        Node next;
+    // Recursive Method to Check Palindrome
+    public static boolean isPalindrome(String word, int start, int end) {
 
-        Node(int data) {
-            this.data = data;
-            this.next = null;
-        }
-    }
-
-    // Head of Linked List
-    static Node head = null;
-
-    // Insert Node at End
-    public static void insert(int data) {
-        Node newNode = new Node(data);
-
-        if (head == null) {
-            head = newNode;
-            return;
-        }
-
-        Node temp = head;
-        while (temp.next != null) {
-            temp = temp.next;
-        }
-        temp.next = newNode;
-    }
-
-    // Check Palindrome
-    public static boolean isPalindrome() {
-
-        if (head == null || head.next == null) {
+        // Base Case
+        if (start >= end) {
             return true;
         }
 
-        Node slow = head;
-        Node fast = head;
-        Node prev = null;
-        Node next;
-
-        // Reverse first half while finding middle
-        while (fast != null && fast.next != null) {
-            fast = fast.next.next;
-
-            next = slow.next;
-            slow.next = prev;
-            prev = slow;
-            slow = next;
+        // If characters do not match
+        if (word.charAt(start) != word.charAt(end)) {
+            return false;
         }
 
-        // Skip middle element for odd length
-        if (fast != null) {
-            slow = slow.next;
-        }
-
-        // Compare both halves
-        while (prev != null && slow != null) {
-            if (prev.data != slow.data) {
-                return false;
-            }
-            prev = prev.next;
-            slow = slow.next;
-        }
-
-        return true;
+        // Recursive Call
+        return isPalindrome(word, start + 1, end - 1);
     }
 
     public static void main(String[] args) {
 
-        // Example Linked List: 1 → 2 → 3 → 2 → 1
-        insert(1);
-        insert(2);
-        insert(3);
-        insert(2);
-        insert(1);
+        String word = "madam";
 
-        if (isPalindrome()) {
-            System.out.println("Linked List is a palindrome");
+        boolean result = isPalindrome(word, 0, word.length() - 1);
+
+        if (result) {
+            System.out.println(word + " is a palindrome");
         } else {
-            System.out.println("Linked List is not a palindrome");
+            System.out.println(word + " is not a palindrome");
         }
     }
 }
