@@ -1,53 +1,65 @@
 /**
  * MAIN CLASS: PalindromeCheckerApp
- * Use Case 10: Case-Insensitive & Space-Ignored Palindrome Check
+ * Use Case 11: Object-Oriented Palindrome Service
  *
  * Description:
- * Check whether a given string is a palindrome
- * by ignoring case differences and spaces.
- * The string is first normalized, then checked
- * using the Two-Pointer Technique.
+ * Implement palindrome checking using
+ * Object-Oriented Programming principles.
+ * A separate service class handles the
+ * palindrome logic.
  *
  * Key Concepts Used:
- *  - String Normalization
- *  - toLowerCase()
- *  - replaceAll()
+ *  - OOP (Encapsulation)
+ *  - Service Class Design
+ *  - Method Abstraction
  *  - Two-Pointer Technique
- *  - Time Complexity Awareness (O(n))
+ *  - Clean Code Structure
  *
  * @author SHIVANSH DHINGRA
- * @version 10.0
+ * @version 11.0
  */
 
-public class PalindromeCheckerApp {
+// Service Class
+class PalindromeService {
 
-    public static void main(String[] args) {
+    public boolean isPalindrome(String input) {
 
-        String input = "A man a plan a canal Panama";
+        if (input == null) {
+            return false;
+        }
 
-        // Normalize the string (remove spaces and convert to lowercase)
         String normalized = input.toLowerCase().replaceAll("\\s+", "");
 
         int start = 0;
         int end = normalized.length() - 1;
 
-        boolean isPalindrome = true;
-
         while (start < end) {
 
             if (normalized.charAt(start) != normalized.charAt(end)) {
-                isPalindrome = false;
-                break;
+                return false;
             }
 
             start++;
             end--;
         }
 
-        if (isPalindrome) {
-            System.out.println("\"" + input + "\" is a palindrome (ignoring case and spaces)");
+        return true;
+    }
+}
+
+public class PalindromeCheckerApp {
+
+    public static void main(String[] args) {
+
+        String text = "Never Odd Or Even";
+
+        PalindromeService service = new PalindromeService();
+        boolean result = service.isPalindrome(text);
+
+        if (result) {
+            System.out.println("\"" + text + "\" is a palindrome");
         } else {
-            System.out.println("\"" + input + "\" is not a palindrome");
+            System.out.println("\"" + text + "\" is not a palindrome");
         }
     }
 }
