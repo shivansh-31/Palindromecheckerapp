@@ -1,32 +1,35 @@
 /**
  * MAIN CLASS: PalindromeCheckerApp
- * Use Case 11: Object-Oriented Palindrome Service
+ * Use Case 12: Strategy Pattern for Palindrome Algorithms (Advanced)
  *
  * Description:
- * Implement palindrome checking using
- * Object-Oriented Programming principles.
- * A separate service class handles the
- * palindrome logic.
+ * Implement multiple palindrome checking algorithms
+ * using the Strategy Design Pattern. Different
+ * strategies can be selected at runtime.
  *
  * Key Concepts Used:
- *  - OOP (Encapsulation)
- *  - Service Class Design
- *  - Method Abstraction
- *  - Two-Pointer Technique
- *  - Clean Code Structure
+ *  - Strategy Design Pattern
+ *  - Interface Implementation
+ *  - Runtime Polymorphism
+ *  - Clean Architecture
+ *  - Open/Closed Principle
  *
  * @author SHIVANSH DHINGRA
- * @version 11.0
+ * @version 12.0
  */
 
-// Service Class
-class PalindromeService {
+// Strategy Interface
+interface PalindromeStrategy {
+    boolean isPalindrome(String input);
+}
 
+// Concrete Strategy 1: Two-Pointer Approach
+class TwoPointerStrategy implements PalindromeStrategy {
+
+    @Override
     public boolean isPalindrome(String input) {
 
-        if (input == null) {
-            return false;
-        }
+        if (input == null) return false;
 
         String normalized = input.toLowerCase().replaceAll("\\s+", "");
 
@@ -34,11 +37,9 @@ class PalindromeService {
         int end = normalized.length() - 1;
 
         while (start < end) {
-
             if (normalized.charAt(start) != normalized.charAt(end)) {
                 return false;
             }
-
             start++;
             end--;
         }
@@ -47,19 +48,59 @@ class PalindromeService {
     }
 }
 
+// Concrete Strategy 2: Reverse String Approach
+class ReverseStringStrategy implements PalindromeStrategy {
+
+    @Override
+    public boolean isPalindrome(String input) {
+
+        if (input == null) return false;
+
+        String normalized = input.toLowerCase().replaceAll("\\s+", "");
+
+        String reversed = new StringBuilder(normalized).reverse().toString();
+
+        return normalized.equals(reversed);
+    }
+}
+
+// Context Class
+class PalindromeContext {
+
+    private PalindromeStrategy strategy;
+
+    public PalindromeContext(PalindromeStrategy strategy) {
+        this.strategy = strategy;
+    }
+
+    public void setStrategy(PalindromeStrategy strategy) {
+        this.strategy = strategy;
+    }
+
+    public boolean execute(String input) {
+        return strategy.isPalindrome(input);
+    }
+}
+
 public class PalindromeCheckerApp {
 
     public static void main(String[] args) {
 
-        String text = "Never Odd Or Even";
+        String text = "Was It A Rat I Saw";
 
-        PalindromeService service = new PalindromeService();
-        boolean result = service.isPalindrome(text);
+        // Choose Strategy 1
+        PalindromeContext context =
+                new PalindromeContext(new TwoPointerStrategy());
 
-        if (result) {
-            System.out.println("\"" + text + "\" is a palindrome");
-        } else {
-            System.out.println("\"" + text + "\" is not a palindrome");
-        }
+        boolean result1 = context.execute(text);
+
+        System.out.println("Two-Pointer Strategy Result: " + result1);
+
+        // Switch to Strategy 2
+        context.setStrategy(new ReverseStringStrategy());
+
+        boolean result2 = context.execute(text);
+
+        System.out.println("Reverse String Strategy Result: " + result2);
     }
 }
