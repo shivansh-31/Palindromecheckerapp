@@ -1,17 +1,45 @@
+/**
+ * MAIN CLASS: PalindromeCheckerApp
+ * Use Case 4: Character Array Based Palindrome Check
+ *
+ * Description:
+ * Convert string to character array and compare characters
+ * using the Two-Pointer Technique.
+ *
+ * Key Concepts Used:
+ *  - Character Array (char[])
+ *  - Array Indexing
+ *  - Two-Pointer Technique
+ *  - Time Complexity Awareness
+ *
+ * @author SHIVANSH DHINGRA
+ * @version 4.0
+ */
 
 public class PalindromeCheckerApp {
 
     public static void main(String[] args){
 
-        String word = "madam";
-        String reversed = "";
+        String word = "radar";
+        char[] chars = word.toCharArray();
 
-        for (int i = word.length() - 1; i >= 0; i--) {
+        int start = 0;
+        int end = chars.length - 1;
 
-            reversed = reversed + word.charAt(i);
+        boolean isPalindrome = true;
+
+        while (start < end) {
+
+            if (chars[start] != chars[end]) {
+                isPalindrome = false;
+                break;
+            }
+
+            start++;
+            end--;
         }
 
-        if (word.equals(reversed)) {
+        if (isPalindrome) {
             System.out.println(word + " is a palindrome");
         } else {
             System.out.println(word + " is not a palindrome");
